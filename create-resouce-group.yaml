@@ -1,0 +1,31 @@
+trigger: none
+
+parameters:
+  - name: location
+    displayName: 'Ubicación del Resource Group'
+    type: string
+    default: 'canadacentral'
+
+  - name: rgName
+    displayName: 'Nombre del Resource Group'
+    type: string
+    default: 'mi-grupo-rg'
+
+pool:
+  name: default
+
+steps:
+- script: |
+    echo "Azure CLI versión:"
+    az --version
+  displayName: "Verificar instalación de Azure CLI"
+
+- script: |
+    echo "Verificando sesión de Azure..."
+    az account show
+  displayName: "Verificar sesión de Azure"
+
+- script: |
+    echo "Creando Resource Group: ${{ parameters.rgName }} en ${{ parameters.location }}..."
+    az group create --name "${{ parameters.rgName }}" --location "${{ parameters.location }}"
+  displayName: "Crear Resource Group"
